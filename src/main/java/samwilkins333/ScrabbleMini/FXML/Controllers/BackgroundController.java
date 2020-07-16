@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import main.java.samwilkins333.ScrabbleMini.FXML.Scenes.Bindings.BindingMode;
 import main.java.samwilkins333.ScrabbleMini.FXML.Utilities.Image.ObservableImage;
 import main.java.samwilkins333.ScrabbleMini.Logic.DataStructures.Utility.PlayerList;
+import main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Players.HumanPlayer;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Players.SimulatedPlayer;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Referee.Referee;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Referee.StandardReferee;
@@ -88,7 +89,7 @@ public class BackgroundController implements Initializable {
    */
   public void begin() {
     PlayerList<Trie> players = new PlayerList<>(2);
-    players.add(new SimulatedPlayer());
+    players.add(new HumanPlayer());
     players.add(new SimulatedPlayer());
     referee = new StandardReferee(players, board, tileBag);
   }

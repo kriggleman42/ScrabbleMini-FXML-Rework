@@ -23,7 +23,7 @@ public class HumanPlayer extends Player<Trie> {
   }
 
   @Override
-  public List<TilePlacement> move(GameContext<Trie> context, boolean permanent) {
+  public List<TilePlacement> move(GameContext<Trie> context) {
     return new ArrayList<>();
   }
 }

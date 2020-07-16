@@ -4,7 +4,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import main.java.samwilkins333.ScrabbleMini.FXML.Utilities.Image.TransitionHelper;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.Board.Initializer.BoardInitializer;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.Rack.RackView;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.Rack.RackLayoutManager;
@@ -320,7 +319,7 @@ public class Board {
       Multiplier multiplier = multipliers[column][row];
 
       wordMultiplier *= multiplier.getWordValue();
-      score += tile.getTile().getScore() * multiplier.getLetterValue();
+      score += tile.getTile().getValue() * multiplier.getLetterValue();
 
       if (official) {
         // ensure that the multiplier at this cell can't be double-

@@ -64,14 +64,14 @@ public final class TransitionHelper {
   /**
    * Effectively a scheduled task, occurring after the given
    * latency.
-   * @param duration the latency before execution
+   * @param seconds the latency before execution
    * @param onFinished the action to execute after the duration
    *                   has elapsed
    * @return the generated <code>PauseTransition</code>
    */
   public static PauseTransition pause(
-          double duration, EventHandler<ActionEvent> onFinished) {
-    Duration dur = Duration.seconds(duration);
+          double seconds, EventHandler<ActionEvent> onFinished) {
+    Duration dur = Duration.seconds(seconds);
     PauseTransition pause = new PauseTransition(dur);
     pause.setOnFinished(onFinished);
     return pause;

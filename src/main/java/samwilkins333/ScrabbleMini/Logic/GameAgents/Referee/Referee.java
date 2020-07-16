@@ -1,6 +1,5 @@
 package main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Referee;
 
-import ScrabbleBase.Board.Location.TilePlacement;
 import ScrabbleBase.Vocabulary.Trie;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import main.java.samwilkins333.ScrabbleMini.FXML.Utilities.Image.TransitionHelper;
 import main.java.samwilkins333.ScrabbleMini.Logic.DataStructures.Utility.PlayerList;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Players.Player;
+import main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Players.SimulatedPlayer;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Referee.Initializer.DictionaryInitializer;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.Board.Board;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.GameContext;
@@ -55,7 +55,7 @@ public abstract class Referee<T extends Trie> {
     players.forEach(p -> p.setRackVisible(p == players.current()));
 
     players.previous();
-//    nextMove();
+    nextMove();
   }
 
   protected abstract Axis analyzeAxis(Word placements);
@@ -70,10 +70,12 @@ public abstract class Referee<T extends Trie> {
    * @param e the key event received
    */
   public void notify(KeyEvent e) {
+    if (this.players.current() instanceof SimulatedPlayer) {
+      return;
+    }
     switch (e.getCode()) {
       case ENTER:
-        nextMove();
-//        this.completeMove(e.isShiftDown());
+        this.evaluateHumanPlacements();
         break;
       case ESCAPE:
         board.resetPlacements();
@@ -97,14 +99,12 @@ public abstract class Referee<T extends Trie> {
     current.setRackVisible(true);
     current.fillRack(board, tileBag);
     movesInitiated++;
-    completeMove(true);
-  }
-
-  public void completeMove(boolean permanent) {
-    Player<T> current = players.current();
-    List<TilePlacement> move = current.move(current.initializeContext(new GameContext<>(board, lexicon, movesInitiated - 1)), permanent);
-    if (permanent && move != null) {
-      nextMove();
+    if (current instanceof SimulatedPlayer) {
+      TransitionHelper.pause(2, e -> {
+        GameContext<T> context = new GameContext<>(board, lexicon, movesInitiated - 1);
+        players.current().move(players.current().initializeContext(context));
+        nextMove();
+      }).play();
     }
   }
 
@@ -122,8 +122,7 @@ public abstract class Referee<T extends Trie> {
       return;
     }
 
-    boolean wordPositioned = isPositioned(word, axis);
-    if (!board.complete(word, axis)) {
+    if (!(isPositioned(word, axis) && board.complete(word, axis))) {
       return;
     }
 

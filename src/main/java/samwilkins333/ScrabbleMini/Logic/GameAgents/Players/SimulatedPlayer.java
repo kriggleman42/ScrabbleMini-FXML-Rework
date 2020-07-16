@@ -20,7 +20,7 @@ import java.util.List;
 public class SimulatedPlayer extends Player<Trie> {
 
   @Override
-  public List<TilePlacement> move(GameContext<Trie> context, boolean permanent) {
+  public List<TilePlacement> move(GameContext<Trie> context) {
     if (this.rack.isEmpty()) {
       return null;
     }
@@ -35,10 +35,8 @@ public class SimulatedPlayer extends Player<Trie> {
           if (placement.getTile().getLetter() == Tile.BLANK) {
             tileView.getTile().setLetterProxy(placement.getTile().getLetterProxy());
           }
-          tileView.playAt(placement.getX(), placement.getY(), permanent);
-          if (permanent) {
-            this.rack.remove(tileView);
-          }
+          tileView.playAt(placement.getX(), placement.getY(), true);
+          this.rack.remove(tileView);
           break;
         }
       }

@@ -3,7 +3,6 @@ package main.java.samwilkins333.ScrabbleMini.Logic.GameAgents.Players;
 import ScrabbleBase.Board.Location.TilePlacement;
 import ScrabbleBase.Vocabulary.Trie;
 import main.java.samwilkins333.ScrabbleMini.FXML.Scenes.Bindings.Composite.ImageBindings;
-import main.java.samwilkins333.ScrabbleMini.FXML.Utilities.Image.TransitionHelper;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.Board.Board;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.Board.BoardScore;
 import main.java.samwilkins333.ScrabbleMini.Logic.GameElements.GameContext;
@@ -65,7 +64,7 @@ public abstract class Player<T extends Trie> {
     }
 
     rack.consolidate();
-    rack.animationsInProgress = RackView.CAPACITY - rack.size();
+//    rack.animationsInProgress = RackView.CAPACITY - rack.size();
 
     tileBag.shake();
     while (!rack.isFull()) {
@@ -89,8 +88,8 @@ public abstract class Player<T extends Trie> {
       rack.add(drawn);
 
       drawn.render(board);
-      rack.animationsInProgress--;
 //      TransitionHelper.pause(RackView.DELAY * rack.size(), e -> {
+//        rack.animationsInProgress--;
 //      }).play();
     }
 
@@ -149,5 +148,5 @@ public abstract class Player<T extends Trie> {
    *              state of the game at the time of invocation,
    *                and the data structure containing the lexicon
    */
-  public abstract List<TilePlacement> move(GameContext<T> context, boolean permanent);
+  public abstract List<TilePlacement> move(GameContext<T> context);
 }
